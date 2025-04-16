@@ -23,6 +23,11 @@ private route:ActivatedRoute) { }
   private jwtService = inject(JwtService);
   private router = inject(Router);
 
+  logout(){
+    this.jwtService.deleteJwtInStorage();
+    this.router.navigate(['/'])
+  }
+
   async login(model: LoginModel) {
     this.spinnerService.show();
     model.password = this.encryptionService.encrypt(model.password);
