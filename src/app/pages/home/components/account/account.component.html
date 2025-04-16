@@ -1,3 +1,20 @@
-
-
-
+<mat-card appearance="outlined" class="m-3">
+    <mat-card-header>
+        <mat-card-title>{{account.title}}</mat-card-title>
+        <mat-card-subtitle>{{account.code}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+       <div class="container">
+        <div class="row">
+            <div class="col-6 text-center">
+                <h3>₺{{account.balance}}</h3>
+                <h5>Kullanılabilir Bakiye</h5>
+            </div>
+            <div class="col-6 text-center">
+                <h3>₺{{account.balance}}</h3>
+                <h5>Güncel Bakiye</h5>
+            </div>
+        </div>
+       </div>
+    </mat-card-content>
+</mat-card>

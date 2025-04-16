@@ -1,5 +1,11 @@
-<mat-tab-group>
-    <mat-tab label="First"> <app-account></app-account></mat-tab>
-    <mat-tab label="First"> <app-account></app-account></mat-tab> 
-    <mat-tab label="First"><app-account></app-account></mat-tab>
-</mat-tab-group>
+<h1>Hesaplarım</h1>
+
+@if(items.length > 0){
+    <mat-tab-group>
+        @for (item of items; track item.id) {
+        <mat-tab [label]="item.code"> <app-account [account]="item"></app-account></mat-tab>
+        }
+    </mat-tab-group>
+}@else {
+    
+}
