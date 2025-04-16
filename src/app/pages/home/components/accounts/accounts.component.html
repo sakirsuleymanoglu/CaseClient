@@ -1,11 +1,15 @@
-<h1>Hesaplarım</h1>
+<h1>Hesaplarım
+    <button (click)="openCreateAccountDialog()" mat-icon-button>
+        <mat-icon>add</mat-icon>
+    </button>
+</h1>
 
 @if(items.length > 0){
-    <mat-tab-group>
-        @for (item of items; track item.id) {
-        <mat-tab [label]="item.code"> <app-account [account]="item"></app-account></mat-tab>
-        }
-    </mat-tab-group>
+<mat-tab-group>
+    @for (item of items; track item.id) {
+    <mat-tab [label]="item.code"> <app-account [account]="item"></app-account></mat-tab>
+    }
+</mat-tab-group>
 }@else {
-    
+
 }

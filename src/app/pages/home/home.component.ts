@@ -15,9 +15,5 @@ import { AuthenticationService } from '../../services/authentication/authenticat
 })
 export class HomeComponent {
   
-  private authenticationService = inject(AuthenticationService);
-
-  logout() {
-    this.authenticationService.logout();
-  }
+ 
 }

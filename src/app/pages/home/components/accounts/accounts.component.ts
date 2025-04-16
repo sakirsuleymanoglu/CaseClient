@@ -5,11 +5,15 @@ import { HttpClientService } from '../../../../services/http-client/http-client.
 import { AccountModel } from '../../../../models/accounts/account.model';
 import { API_BASE_URL } from '../../../../app.config';
 import { User } from '../../../../user';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { DialogService } from '../../../../services/dialog/dialog.service';
+import { CreateAccountDialogComponent } from '../../../../components/dialogs/create-account-dialog/create-account-dialog.component';
 
 
 @Component({
   selector: 'app-accounts',
-  imports: [MatTabsModule, AccountComponent],
+  imports: [MatTabsModule, AccountComponent, MatIconModule, MatButtonModule],
   templateUrl: './accounts.component.html',
   styleUrl: './accounts.component.css',
 })
@@ -19,11 +23,25 @@ export class AccountsComponent implements OnInit {
     private user: User
   ) { }
 
+  openCreateAccountDialog() {
+    this.dialogService.open({
+      compononent: CreateAccountDialogComponent,
+      data: this.user.id,
+      onAfterClosed: (value: boolean | undefined) => {
+        if (value) {
+          this.getAccounts();
+        }
+      }
+    })
+  }
+
   private httpClientService = inject(HttpClientService);
+  private dialogService = inject(DialogService);
+
 
   items: AccountModel[] = [];
 
-  ngOnInit() {
+  getAccounts() {
     this.httpClientService.get<AccountModel[]>({
       baseUrl: this.baseUrl,
       path: "accounts",
@@ -36,5 +54,9 @@ export class AccountsComponent implements OnInit {
         this.items = value;
       }
     });
+  }
+
+  ngOnInit() {
+    this.getAccounts();
   }
 }

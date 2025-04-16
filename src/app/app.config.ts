@@ -4,10 +4,8 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { routes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { JwtHelperService, JwtModule } from "@auth0/angular-jwt";
-import { User } from './user';
-import { JwtService } from './services/jwt/jwt.service';
-
+import { JwtModule } from "@auth0/angular-jwt";
+import { provideToastr } from 'ngx-toastr';
 
 
 export const API_BASE_URL = new InjectionToken<string>('apiBaseUrl');
@@ -25,7 +23,8 @@ export const appConfig: ApplicationConfig = {
 
       },
     }),),
-  provideAnimations()
+  provideAnimations(),
+  provideToastr()
 
   ]
 };

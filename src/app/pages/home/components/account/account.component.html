@@ -1,24 +1,30 @@
 <mat-card appearance="outlined" class="m-3">
     <mat-card-header>
         <mat-card-title>{{account.title}}</mat-card-title>
-        <mat-card-subtitle>{{account.code}}</mat-card-subtitle>
+        <mat-card-subtitle>{{account.code}}
+            <button mat-button [matMenuTriggerFor]="menu">Para Transferi</button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="transferMyAccounts()">Kendi Hesabıma</button>
+                <button mat-menu-item (click)="transferOtherAccounts()">Başka Hesaba</button>
+            </mat-menu>
+        </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-       <div class="container">
-        <div class="row">
-            <div class="col-5 text-center">
-                <h3>₺{{account.balance}}</h3>
-                <h5>Kullanılabilir Bakiye</h5>
-            </div>
-            <div class="col-2 text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-5 text-center">
+                    <h3>₺{{account.balance}}</h3>
+                    <h5>Kullanılabilir Bakiye</h5>
+                </div>
+                <div class="col-2 text-center">
                     |
-            </div>
-            <div class="col-5 text-center">
-                <h3>₺{{account.balance}}</h3>
-                <h5>Güncel Bakiye</h5>
+                </div>
+                <div class="col-5 text-center">
+                    <h3>₺{{account.balance}}</h3>
+                    <h5>Güncel Bakiye</h5>
+                </div>
             </div>
         </div>
-       </div>
     </mat-card-content>
 </mat-card>
 

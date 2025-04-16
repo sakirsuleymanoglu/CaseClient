@@ -30,7 +30,8 @@
               "node_modules/ngx-spinner/animations/ball-clip-rotate.css",
               "@angular/material/prebuilt-themes/azure-blue.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": [
               "node_modules/bootstrap/dist/js/bootstrap.min.js"
