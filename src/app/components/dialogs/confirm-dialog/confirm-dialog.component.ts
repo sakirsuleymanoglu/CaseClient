@@ -1,6 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
+import { BaseDialog } from '../base-dialog';
 
 @Component({
   selector: 'app-confirm-dialog',
@@ -8,9 +9,7 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
   templateUrl: './confirm-dialog.component.html',
   styleUrl: './confirm-dialog.component.css'
 })
-export class ConfirmDialogComponent {
-
-  readonly dialogRef = inject(MatDialogRef<ConfirmDialogComponent>);
+export class ConfirmDialogComponent extends BaseDialog<ConfirmDialogComponent, undefined> {
 
   onNoClick(): void {
     this.dialogRef.close(false);
@@ -20,3 +19,5 @@ export class ConfirmDialogComponent {
     this.dialogRef.close(true);
   }
 }
+
+
