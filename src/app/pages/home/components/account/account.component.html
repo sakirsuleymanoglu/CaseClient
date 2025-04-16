@@ -6,11 +6,14 @@
     <mat-card-content>
        <div class="container">
         <div class="row">
-            <div class="col-6 text-center">
+            <div class="col-5 text-center">
                 <h3>₺{{account.balance}}</h3>
                 <h5>Kullanılabilir Bakiye</h5>
             </div>
-            <div class="col-6 text-center">
+            <div class="col-2 text-center">
+                    |
+            </div>
+            <div class="col-5 text-center">
                 <h3>₺{{account.balance}}</h3>
                 <h5>Güncel Bakiye</h5>
             </div>
@@ -18,3 +21,5 @@
        </div>
     </mat-card-content>
 </mat-card>
+
+<app-transactions [accountId]="account.id"></app-transactions>

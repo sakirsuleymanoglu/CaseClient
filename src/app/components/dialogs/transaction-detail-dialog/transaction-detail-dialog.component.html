@@ -1,0 +1,61 @@
+<h2 mat-dialog-title>Case Client</h2>
+<mat-dialog-content>
+
+    <div class="row">
+        <div class="col-6">
+            İşlem Tarihi
+        </div>
+        <div class="col-6">
+            {{data.createdDate|date:"dd/MM/yyyy"}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            İşlem Tipi
+        </div>
+        <div class="col-6">
+            {{data.type}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            Kanal
+        </div>
+        <div class="col-6">
+            {{data.channel}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            Kanal
+        </div>
+        <div class="col-6">
+            {{data.description}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            İşlem Tutarı
+        </div>
+        <div class="col-6" [ngClass]="{
+            'text-danger':!(data.updatedBalance - data.balance >= 0)
+        }">
+            @if(!(data.updatedBalance - data.balance >= 0)){
+            <span>-</span>
+            }₺{{data.amount}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            Güncel Bakiye
+        </div>
+        <div class="col-6">
+            {{data.updatedBalance}}
+        </div>
+    </div>
+
+
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button (click)="onClose()">Kapat</button>
+</mat-dialog-actions>

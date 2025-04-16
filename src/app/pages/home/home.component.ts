@@ -11,14 +11,21 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
+  ngOnInit() {
+   //this.openDialog();
+  }
+
+  
 
   private dialogService = inject(DialogService);
 
   openDialog() {
-    this.dialogService.open<boolean>(ConfirmDialogComponent, (value: boolean | undefined) => {
-
-
+    this.dialogService.open({
+      compononent: ConfirmDialogComponent,
+      onAfterClosed:(value: boolean | undefined)=>{
+        alert(value);
+      }
     });
 
 

@@ -1,0 +1,7 @@
+<h5>Hesap Hareketleri</h5>
+
+@if(items.length>0){
+@for(item of items; track item.id){
+<app-transaction [transaction]="item"></app-transaction>
+}
+}
