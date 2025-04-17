@@ -9,6 +9,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { DialogService } from '../../../../services/dialog/dialog.service';
 import { CreateAccountDialogComponent } from '../../../../components/dialogs/create-account-dialog/create-account-dialog.component';
+import { SignalRService } from '../../../../services/signalr/signalr.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-accounts',
@@ -20,7 +22,23 @@ export class AccountsComponent implements OnInit {
 
   constructor(@Inject(API_BASE_URL) private baseUrl: string,
     private user: User
-  ) { }
+  ) {
+    
+    this.signalRService.connection.on('NewTransfer', (data:{senderUserName:string, amount:number, senderAccountCode:string}) => {
+      this.toastrService.success(`${data.senderUserName} tarafından ${data.senderAccountCode} kodlu hesabınıza ₺${data.amount} transfer yapıldı`, "Yeni Transfer", {
+        closeButton:true,
+        positionClass:'toast-bottom-full-width',
+        timeOut:20000
+      })
+      this.getAccounts();
+    })
+
+  }
+
+  private signalRService = inject(SignalRService);
+  private toastrService = inject(ToastrService);
+
+
 
   @ViewChild(MatTabGroup) matTabGroup!: MatTabGroup;
   tabSelectedIndex: number = 0;
@@ -67,7 +85,7 @@ export class AccountsComponent implements OnInit {
       },
     });
 
- 
+
   }
 
   ngOnInit() {

@@ -7,6 +7,7 @@ import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AuthenticationService } from './services/authentication/authentication.service';
+import { SignalRService } from './services/signalr/signalr.service';
 
 
 
@@ -18,6 +19,10 @@ import { AuthenticationService } from './services/authentication/authentication.
 })
 export class AppComponent {
   private authenticationService = inject(AuthenticationService);
+ 
+  constructor(){
+  
+  }
 
   logout() {
     this.authenticationService.logout();
