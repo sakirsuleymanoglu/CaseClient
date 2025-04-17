@@ -6,10 +6,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { AccountModel } from '../../../models/accounts/account.model';
 import { BaseDialog } from '../base-dialog';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { ToastrService } from 'ngx-toastr';
-import { lastValueFrom } from 'rxjs';
-import { CreateTransferModel } from '../../../models/transactions/create-transfer.model';
 import { TransactionService } from '../../../services/transaction/transaction.service';
 import { DialogService } from '../../../services/dialog/dialog.service';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
@@ -45,12 +41,12 @@ export class TransferOtherAccountsDialogComponent extends
     fromAccountCode: [this.data.code, [Validators.required]],
     toAccountCode: ['', [Validators.required]],
     channel: ['Web', [Validators.required]],
-    amount: [0, [Validators.required, Validators.min(1)]]
+    amount: [1, [Validators.required, Validators.min(1)]]
   })
 
-  onSubmit() {
+  async onSubmit() {
     if (this.transferForm.valid) {
-      this.dialogService.open({
+     await this.dialogService.open({
         compononent: ConfirmDialogComponent,
         onAfterClosed: async (value: boolean | undefined) => {
           if (value) {

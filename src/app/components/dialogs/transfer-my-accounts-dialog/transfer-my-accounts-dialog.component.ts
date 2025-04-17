@@ -48,16 +48,16 @@ export class TransferMyAccountsDialogComponent extends
     fromAccountCode: [this.data.code, [Validators.required]],
     toAccountCode: ['', [Validators.required]],
     channel: ['Web', [Validators.required]],
-    amount: [0, [Validators.required, Validators.min(1)]]
+    amount: [1, [Validators.required, Validators.min(1)]]
   })
 
   public get amount() {
     return this.transferForm.get('amount');
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.transferForm.valid) {
-      this.dialogService.open({
+      await this.dialogService.open({
         compononent: ConfirmDialogComponent,
         onAfterClosed: async (value: boolean | undefined) => {
           if (value) {

@@ -35,7 +35,7 @@ export class CreateAccountDialogComponent extends
 
   async onSubmit() {
     if (this.createAccountForm.valid) {
-      this.dialogService.open({
+      await this.dialogService.open({
         compononent: ConfirmDialogComponent,
         onAfterClosed: async (value: boolean | undefined) => {
           if (value) {

@@ -1,13 +1,12 @@
-import { Component, Inject, inject, OnInit, ViewChild } from '@angular/core';
-import { MatTabChangeEvent, MatTabGroup, MatTabsModule } from '@angular/material/tabs';
+import { Component, inject, OnInit } from '@angular/core';
+import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 import { AccountComponent } from "../account/account.component";
-import { HttpClientService } from '../../../../services/http-client/http-client.service';
 import { AccountModel } from '../../../../models/accounts/account.model';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { DialogService } from '../../../../services/dialog/dialog.service';
 import { CreateAccountDialogComponent } from '../../../../components/dialogs/create-account-dialog/create-account-dialog.component';
-import { TransferSignalRService } from '../../../../services/signalr/transfer-signalr.service';
+import { runTransferSingalR } from '../../../../services/signalr/transfer-signalr.service';
 import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '../../../../services/account/account.service';
 
@@ -25,18 +24,17 @@ export class AccountsComponent implements OnInit {
   items: AccountModel[] = [];
 
   constructor() {
-    new TransferSignalRService(
-      {
-        onNewTransfer: async (data) => {
-          this.toastrService.success(`${data.senderUserName} tarafından ${data.toAccountCode} kodlu hesabınıza ₺${data.amount} transfer yapıldı`, "Yeni Transfer", {
-            closeButton: true,
-            positionClass: 'toast-bottom-full-width',
-            timeOut: 20000
-          })
-          await this.getAccounts();
-        }
+
+    runTransferSingalR({
+      onNewTransfer: async (data) => {
+        this.toastrService.success(`${data.senderUserName} tarafından ${data.toAccountCode} kodlu hesabınıza ₺${data.amount} transfer yapıldı`, "Yeni Transfer", {
+          closeButton: true,
+          positionClass: 'toast-bottom-full-width',
+          timeOut: 20000
+        })
+        await this.getAccounts();
       }
-    )
+    })
   }
 
   async ngOnInit() {

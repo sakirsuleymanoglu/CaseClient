@@ -9,8 +9,8 @@ export class DialogService {
 
   constructor(private dialog: MatDialog) { }
 
-  open(parameters: Partial<DialogParameters>) {
-    lastValueFrom(this.dialog.open(parameters.compononent, {
+  async open(parameters: Partial<DialogParameters>) {
+    await lastValueFrom(this.dialog.open(parameters.compononent, {
       data: parameters.data,
       height: parameters.height,
       width: parameters.width,

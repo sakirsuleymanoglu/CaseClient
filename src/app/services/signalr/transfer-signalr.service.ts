@@ -4,7 +4,13 @@ import { JwtService } from '../jwt/jwt.service';
 import { API_ROOT_URL } from '../../app.config';
 import { NewTransferMessageModel } from '../../models/signalr/new-transfer-message.model';
 
-export class TransferSignalRService {
+export function runTransferSingalR(events: {
+  onNewTransfer?: (data: NewTransferMessageModel) => void
+}) {
+  new TransferSignalRService(events);
+}
+
+class TransferSignalRService {
   private jwtService = inject(JwtService);
   private hubConnection: signalR.HubConnection;
   private rootUrl = inject(API_ROOT_URL);
