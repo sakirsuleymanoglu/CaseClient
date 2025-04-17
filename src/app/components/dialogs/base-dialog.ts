@@ -5,6 +5,6 @@ export class BaseDialog<TComponent, TData> {
 
     constructor() { }
 
-    readonly dialogRef = inject(MatDialogRef<TComponent>);
-    readonly data = inject<TData>(MAT_DIALOG_DATA);
+    protected readonly dialogRef = inject(MatDialogRef<TComponent>);
+    protected readonly data = inject<TData>(MAT_DIALOG_DATA);
 }

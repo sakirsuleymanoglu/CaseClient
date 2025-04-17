@@ -13,24 +13,27 @@ import { TransactionComponent } from '../transaction/transaction.component';
 export class TransactionsComponent implements OnInit {
   constructor(@Inject(API_BASE_URL) private baseUrl: string
 
-) { }
+  ) { }
 
-@Input() accountId!:string;
+  @Input() accountId!: string;
 
-private httpClientService = inject(HttpClientService);
+  private httpClientService = inject(HttpClientService);
 
-items: TransactionModel[] = [];
+  items: TransactionModel[] = [];
 
-ngOnInit() {
-  this.httpClientService.get<TransactionModel[]>({
-    baseUrl: this.baseUrl,
-    path: "accounts",
-    routeParameters:[this.accountId, "transactions"]
-  }).subscribe({
-    next: (value) => {
-      this.items = value;
-      console.log(this.items);
-    }
-  });
-}
+  getTransactions() {
+    this.httpClientService.get<TransactionModel[]>({
+      baseUrl: this.baseUrl,
+      path: "accounts",
+      routeParameters: [this.accountId, "transactions"]
+    }).subscribe({
+      next: (value) => {
+        this.items = value;
+      }
+    });
+  }
+
+  ngOnInit() {
+    this.getTransactions();
+  }
 }

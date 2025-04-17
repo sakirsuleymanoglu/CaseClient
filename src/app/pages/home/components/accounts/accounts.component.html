@@ -5,9 +5,10 @@
 </h1>
 
 @if(items.length > 0){
-<mat-tab-group>
+<mat-tab-group [selectedIndex]="tabSelectedIndex" (selectedTabChange)="onTabSelectedChange($event)">
     @for (item of items; track item.id) {
-    <mat-tab [label]="item.code"> <app-account [account]="item"></app-account></mat-tab>
+    <mat-tab [label]="item.code"> <app-account (onTransfer)="onTransfer()"
+            [account]="item"></app-account></mat-tab>
     }
 </mat-tab-group>
 }@else {

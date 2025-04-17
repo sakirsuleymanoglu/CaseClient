@@ -44,13 +44,13 @@ export class CreateAccountDialogComponent extends
       this.spinnerService.show();
       lastValueFrom(this.httpClientService.post({
         baseUrl: this.baseUrl,
-        path: "accounts"
+        path: 'accounts'
       }, {
         appUserId: this.data,
         title: this.createAccountForm.value.title,
       })).then((_) => {
         this.dialogRef.close(true);
-        this.toastrService.success("Hesap oluşturuldu");
+        this.toastrService.success('Hesap oluşturuldu');
       }).finally(() => {
         this.spinnerService.hide();
       })

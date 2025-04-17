@@ -1,5 +1,5 @@
-import { Component, Inject, inject, OnInit, runInInjectionContext } from '@angular/core';
-import { MatTabsModule } from '@angular/material/tabs';
+import { Component, Inject, inject, OnInit, ViewChild } from '@angular/core';
+import { MatTabChangeEvent, MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 import { AccountComponent } from "../account/account.component";
 import { HttpClientService } from '../../../../services/http-client/http-client.service';
 import { AccountModel } from '../../../../models/accounts/account.model';
@@ -9,7 +9,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { DialogService } from '../../../../services/dialog/dialog.service';
 import { CreateAccountDialogComponent } from '../../../../components/dialogs/create-account-dialog/create-account-dialog.component';
-
 
 @Component({
   selector: 'app-accounts',
@@ -23,6 +22,13 @@ export class AccountsComponent implements OnInit {
     private user: User
   ) { }
 
+  @ViewChild(MatTabGroup) matTabGroup!: MatTabGroup;
+  tabSelectedIndex: number = 0;
+
+  onTabSelectedChange(event: MatTabChangeEvent) {
+    this.tabSelectedIndex = event.index;
+  }
+
   openCreateAccountDialog() {
     this.dialogService.open({
       compononent: CreateAccountDialogComponent,
@@ -31,17 +37,23 @@ export class AccountsComponent implements OnInit {
         if (value) {
           this.getAccounts();
         }
-      }
+      },
+      width: "500px",
+      height: "300px"
     })
   }
 
   private httpClientService = inject(HttpClientService);
   private dialogService = inject(DialogService);
 
-
   items: AccountModel[] = [];
 
+  onTransfer() {
+    this.getAccounts();
+  }
+
   getAccounts() {
+    this.items = [];
     this.httpClientService.get<AccountModel[]>({
       baseUrl: this.baseUrl,
       path: "accounts",
@@ -52,8 +64,10 @@ export class AccountsComponent implements OnInit {
     }).subscribe({
       next: (value) => {
         this.items = value;
-      }
+      },
     });
+
+ 
   }
 
   ngOnInit() {

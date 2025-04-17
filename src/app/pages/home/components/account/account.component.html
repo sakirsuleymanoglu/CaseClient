@@ -4,8 +4,8 @@
         <mat-card-subtitle>{{account.code}}
             <button mat-button [matMenuTriggerFor]="menu">Para Transferi</button>
             <mat-menu #menu="matMenu">
-                <button mat-menu-item (click)="transferMyAccounts()">Kendi Hesabıma</button>
-                <button mat-menu-item (click)="transferOtherAccounts()">Başka Hesaba</button>
+                <button mat-menu-item (click)="transferMyAccounts(account)">Kendi Hesabıma</button>
+                <button mat-menu-item (click)="transferOtherAccounts(account)">Başka Hesaba</button>
             </mat-menu>
         </mat-card-subtitle>
     </mat-card-header>
