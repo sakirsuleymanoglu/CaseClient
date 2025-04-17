@@ -1,11 +1,10 @@
 export interface TransactionModel {
+    id: string;
     channel: string;
+    type: string;
+    amount: number;
     balance: number;
     updatedBalance: number;
-    createdDate: string;
-    id: string;
-    accountId: string;
-    amount: number;
-    type: string;
     description: string;
+    createdDate: string;
 }

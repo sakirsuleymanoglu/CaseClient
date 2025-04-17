@@ -1,4 +1,4 @@
-export interface TransferModel {
+export interface CreateTransferModel {
     fromAccountCode: string;
     toAccountCode: string;
     channel: string;

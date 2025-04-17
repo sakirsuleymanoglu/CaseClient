@@ -1,12 +1,6 @@
 <mat-toolbar>
-    <!-- <button mat-icon-button class="example-icon">
-        <mat-icon>menu</mat-icon>
-    </button> -->
     <span>Case Client</span>
     <span class="spacer"></span>
-    <!-- <button mat-icon-button>
-        <mat-icon>favorite</mat-icon>
-    </button> -->
     <button (click)="logout()" mat-icon-button>
         <mat-icon>exit_to_app</mat-icon>
     </button>
@@ -14,5 +8,5 @@
 
 <router-outlet></router-outlet>
 
-
-<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#ffffff" type = "ball-clip-rotate" [fullScreen] = "true"></ngx-spinner>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#ffffff" type="ball-clip-rotate"
+    [fullScreen]="true"></ngx-spinner>

@@ -18,7 +18,6 @@ import { AuthenticationService } from '../../services/authentication/authenticat
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
-
   private formBuilder = inject(FormBuilder);
   private authenticationService = inject(AuthenticationService);
 
@@ -35,7 +34,7 @@ export class LoginComponent {
     return this.loginForm.get('password');
   }
 
-  async submitLoginForm() {
+  async onSubmit() {
     if (this.loginForm.valid) {
       await this.authenticationService.login({
         userName: this.loginForm.value.userName,

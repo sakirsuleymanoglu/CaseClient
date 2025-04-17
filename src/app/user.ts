@@ -6,7 +6,6 @@ import { JwtHelperService } from "@auth0/angular-jwt";
     providedIn: "root"
 })
 export class User {
-
     private jwtService = inject(JwtService);
     private jwtHelperService = inject(JwtHelperService);
 

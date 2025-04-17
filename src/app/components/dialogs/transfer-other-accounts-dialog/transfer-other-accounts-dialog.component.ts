@@ -6,12 +6,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { AccountModel } from '../../../models/accounts/account.model';
 import { BaseDialog } from '../base-dialog';
-import { API_BASE_URL } from '../../../app.config';
-import { HttpClientService } from '../../../services/http-client/http-client.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { lastValueFrom } from 'rxjs';
-import { TransferModel } from '../../../models/transactions/transfer.model';
+import { CreateTransferModel } from '../../../models/transactions/create-transfer.model';
+import { TransactionService } from '../../../services/transaction/transaction.service';
+import { DialogService } from '../../../services/dialog/dialog.service';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-transfer-other-accounts-dialog',
@@ -22,51 +23,48 @@ import { TransferModel } from '../../../models/transactions/transfer.model';
   styleUrl: './transfer-other-accounts-dialog.component.css'
 })
 export class TransferOtherAccountsDialogComponent extends
-BaseDialog<TransferOtherAccountsDialogComponent, AccountModel> implements OnInit {
-
-constructor(@Inject(API_BASE_URL) private baseUrl: string,
-) {
-  super()
-
-}
-ngOnInit() {
-
-}
-
-private formBuilder = inject(FormBuilder);
-private httpClientService = inject(HttpClientService);
-private spinnerService = inject(NgxSpinnerService);
-private toastrService = inject(ToastrService);
+  BaseDialog<TransferOtherAccountsDialogComponent, AccountModel> {
+  private formBuilder = inject(FormBuilder);
+  private transactionService = inject(TransactionService);
+  private dialogService = inject(DialogService);
 
 
-onClose(): void {
-  this.dialogRef.close(false);
-}
-
-transferForm: FormGroup = this.formBuilder.group({
-  fromAccountCode: [this.data.code, [Validators.required]],
-  toAccountCode: ['', [Validators.required]],
-  channel: ['Web', [Validators.required]],
-  amount: [0, [Validators.required, Validators.min(1)]]
-})
-
-submitTransferForm() {
-  if (this.transferForm.valid) {
-    this.spinnerService.show();
-    lastValueFrom(this.httpClientService.post<TransferModel, undefined>({
-      baseUrl: this.baseUrl,
-      path: "accounttransactions/create-transfer",
-    }, {
-      amount: this.transferForm.value.amount,
-      channel: this.transferForm.value.channel,
-      fromAccountCode: this.transferForm.value.fromAccountCode,
-      toAccountCode: this.transferForm.value.toAccountCode
-    })).then((_) => {
-      this.toastrService.success("Para transferi gerçekleşti", "Para Transferi - Kendi Hesabıma")
-      this.dialogRef.close(true);
-    }).finally(() => {
-      this.spinnerService.hide();
-    });
+  onClose(): void {
+    this.dialogRef.close(false);
   }
-}
+
+  public get amount() {
+    return this.transferForm.get('amount');
+  }
+
+  public get toAccountCode() {
+    return this.transferForm.get('toAccountCode');
+  }
+
+  transferForm: FormGroup = this.formBuilder.group({
+    fromAccountCode: [this.data.code, [Validators.required]],
+    toAccountCode: ['', [Validators.required]],
+    channel: ['Web', [Validators.required]],
+    amount: [0, [Validators.required, Validators.min(1)]]
+  })
+
+  onSubmit() {
+    if (this.transferForm.valid) {
+      this.dialogService.open({
+        compononent: ConfirmDialogComponent,
+        onAfterClosed: async (value: boolean | undefined) => {
+          if (value) {
+            await this.transactionService.create({
+              amount: this.transferForm.value.amount,
+              channel: this.transferForm.value.channel,
+              fromAccountCode: this.transferForm.value.fromAccountCode,
+              toAccountCode: this.transferForm.value.toAccountCode
+            }, () => {
+              this.dialogRef.close(true);
+            })
+          }
+        }
+      })
+    }
+  }
 }

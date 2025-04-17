@@ -3,5 +3,4 @@ export interface AccountModel {
     code: string;
     title: string;
     balance: number;
-    appUserId: string;
 }

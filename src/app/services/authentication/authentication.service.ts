@@ -13,17 +13,14 @@ import { ActivatedRoute, Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthenticationService {
-
-  constructor(@Inject(API_BASE_URL) private baseUrl: string,
-private route:ActivatedRoute) { }
-
   private httpClientService = inject(HttpClientService);
   private encryptionService = inject(EncryptionService);
   private spinnerService = inject(NgxSpinnerService);
   private jwtService = inject(JwtService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
-  logout(){
+  logout() {
     this.jwtService.deleteJwtInStorage();
     this.router.navigate(['/'])
   }
@@ -32,7 +29,6 @@ private route:ActivatedRoute) { }
     this.spinnerService.show();
     model.password = this.encryptionService.encrypt(model.password);
     await lastValueFrom(this.httpClientService.post<LoginModel, CreatedJwtModel>({
-      baseUrl: this.baseUrl,
       path: 'authentication/login',
     }, model)).then((createdJwt: CreatedJwtModel) => {
       this.jwtService.addJwtToStorage(createdJwt.token);

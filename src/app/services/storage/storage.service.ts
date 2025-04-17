@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { EncryptionService } from '../encryption/encryption.service';
 
 @Injectable({
@@ -6,13 +6,13 @@ import { EncryptionService } from '../encryption/encryption.service';
 })
 export class StorageService {
 
-  constructor(private encryptionService: EncryptionService) { }
+  private encryptionService = inject(EncryptionService);
 
-  add(key: string, value: string, storage:Storage = localStorage) {
+  add(key: string, value: string, storage: Storage = localStorage) {
     storage.setItem(key, this.encryptionService.encrypt(value));
   }
 
-  get(key: string, storage:Storage = localStorage): string | null {
+  get(key: string, storage: Storage = localStorage): string | null {
     let item = storage.getItem(key);
     if (item) {
       return this.encryptionService.decrypt(item);
@@ -20,11 +20,11 @@ export class StorageService {
     return null;
   }
 
-  delete(key: string,storage:Storage = localStorage) {
+  delete(key: string, storage: Storage = localStorage) {
     storage.removeItem(key);
   }
 
-  deleteAll(storage:Storage = localStorage) {
+  deleteAll(storage: Storage = localStorage) {
     storage.clear();
   }
 }

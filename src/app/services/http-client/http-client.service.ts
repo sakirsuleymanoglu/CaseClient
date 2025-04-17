@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { API_BASE_URL } from '../../app.config';
 
 @Injectable({
     providedIn: "root"
@@ -8,9 +9,10 @@ import { Observable } from 'rxjs';
 export class HttpClientService {
 
     private httpClient = inject(HttpClient)
+    private baseUrl = inject(API_BASE_URL);
 
     private createUrl(requestParameters: Partial<RequestParameters>): string {
-        let url: string = `${requestParameters.baseUrl}${requestParameters.path ? `/${requestParameters.path}` : ''}`;
+        let url: string = `${this.baseUrl}${requestParameters.path ? `/${requestParameters.path}` : ''}`;
 
         if (requestParameters.routeParameters) {
             url = `${url}/${requestParameters.routeParameters.join("/")}`;
@@ -38,9 +40,7 @@ export class HttpClientService {
     get<T>(
         requestParameters: Partial<RequestParameters>
     ): Observable<T> {
-
         let url: string = this.createUrl(requestParameters);
-
         return this.httpClient.get<T>(url);
     }
 
@@ -63,7 +63,6 @@ export class HttpClientService {
 }
 
 export class RequestParameters {
-    baseUrl: string = "";
     path?: string;
     routeParameters?: string[];
     queryParameters?: { key: string, value: string }[];

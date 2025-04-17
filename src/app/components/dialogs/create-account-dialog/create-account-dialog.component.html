@@ -2,7 +2,7 @@
 
 <mat-dialog-content>
     <h6>Hesap Oluştur</h6>
-    <form [formGroup]="createAccountForm" (ngSubmit)="submitLoginForm()">
+    <form [formGroup]="createAccountForm" (ngSubmit)="onSubmit()">
 
         <mat-form-field style="margin-bottom: 5px; width: 100%;">
             <mat-label>Başlık</mat-label>
@@ -16,7 +16,5 @@
     </form>
 </mat-dialog-content>
 <mat-dialog-actions>
-    <!-- <button mat-button (click)="onNoClick()">Kapat</button>
-    <button mat-button (click)="onYesClick()">Evet</button> -->
     <button mat-button (click)="onClose()">Kapat</button>
 </mat-dialog-actions>
