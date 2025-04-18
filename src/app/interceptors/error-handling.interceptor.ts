@@ -16,14 +16,17 @@ export function errorHandlingInterceptor(req: HttpRequest<unknown>, next: HttpHa
 
     let result: { message: string } | undefined = error.error as { message: string } | undefined;
 
+    if (error.status == 0) {
+      result = {
+        message: 'Beklenmeyen bir hata meydana geldi'
+      };
+    }
+
     if (error.status == 401) {
+      toastrService.error('Oturum süreniz doldu', 'Giriş Yap');
       jwtService.deleteJwtInStorage();
       router.navigate(['/login'])
-      if (!result) {
-        result = {
-          message: 'Oturum süreniz doldu'
-        };
-      }
+      return throwError(() => error);
     }
 
     if (result) {
