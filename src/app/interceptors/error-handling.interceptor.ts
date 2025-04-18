@@ -1,15 +1,13 @@
 import { HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpRequest } from "@angular/common/http";
 import { inject } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
-import { catchError, EMPTY, Observable, throwError } from "rxjs";
-import { JwtService } from "../services/jwt/jwt.service";
+import { catchError, EMPTY, Observable } from "rxjs";
 import { Router } from "@angular/router";
 import { MatDialog } from "@angular/material/dialog";
 
 export function errorHandlingInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
 
   const toastrService = inject(ToastrService);
-  const jwtService = inject(JwtService);
   const router = inject(Router);
   const dialogRef = inject(MatDialog);
 
@@ -24,10 +22,9 @@ export function errorHandlingInterceptor(req: HttpRequest<unknown>, next: HttpHa
 
     if (httpErrorResponse.status == 401) {
       error = {
-        message : 'Oturum süreniz sonlandı'
+        message: 'Oturum süreniz sonlandı'
       }
       dialogRef.closeAll();
-      jwtService.deleteJwtInStorage();
       router.navigate(['/login'])
     }
 
