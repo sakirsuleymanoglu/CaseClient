@@ -11,25 +11,26 @@ export function errorHandlingInterceptor(req: HttpRequest<unknown>, next: HttpHa
   const jwtService = inject(JwtService);
   const router = inject(Router);
 
-  return next(req).pipe(catchError((error: HttpErrorResponse) => {
+  return next(req).pipe(catchError((httpErrorResponse: HttpErrorResponse) => {
 
-    if (error.status == 401) {
+    if (httpErrorResponse.status == 401) {
       jwtService.deleteJwtInStorage();
       router.navigate(['/login'])
-      return throwError(() => error);
+      return throwError(() => httpErrorResponse);
     }
 
-    let result: { message: string } | undefined = error.error as { message: string } | undefined;
+    let error: { message: string } | undefined = httpErrorResponse.error as { message: string } | undefined;
 
-    if (error.status == 0) {
-      result = {
+    if (httpErrorResponse.status == 0) {
+      error = {
         message: 'Beklenmeyen bir hata meydana geldi'
       };
     }
 
-    if (result) {
-      toastrService.error(result.message, 'Hata');
+    if (error) {
+      toastrService.error(error.message, 'Hata');
     }
-    return throwError(() => error);
+
+    return throwError(() => httpErrorResponse);
   }));
 }
