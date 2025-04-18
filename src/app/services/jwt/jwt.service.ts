@@ -14,16 +14,16 @@ export class JwtService {
     this.storageService.add(this._key, token, sessionStorage);
   }
 
-  deleteJwtInStorage(){
-    this.storageService.delete(this._key,sessionStorage);
+  deleteJwtInStorage() {
+    this.storageService.delete(this._key, sessionStorage);
   }
 
-  getJwtInStorage(){
-    return this.storageService.get(this._key,sessionStorage);
+  getJwtInStorage() {
+    return this.storageService.get(this._key, sessionStorage);
   }
 
-  checkIfUseableJwtInStorage(){
-    return this.checkIfUseableToken(this.storageService.get(this._key,sessionStorage) ?? '');
+  checkIfUseableJwtInStorage() {
+    return this.checkIfUseableToken(this.storageService.get(this._key, sessionStorage) ?? '');
   }
 
   private tokenExpired(token: string) {
