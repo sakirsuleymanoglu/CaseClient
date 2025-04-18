@@ -13,6 +13,11 @@ export function errorHandlingInterceptor(req: HttpRequest<unknown>, next: HttpHa
 
   return next(req).pipe(catchError((error: HttpErrorResponse) => {
 
+    if (error.status == 401) {
+      jwtService.deleteJwtInStorage();
+      router.navigate(['/login'])
+      return throwError(() => error);
+    }
 
     let result: { message: string } | undefined = error.error as { message: string } | undefined;
 
@@ -22,17 +27,9 @@ export function errorHandlingInterceptor(req: HttpRequest<unknown>, next: HttpHa
       };
     }
 
-    if (error.status == 401) {
-      toastrService.error('Oturum süreniz doldu', 'Giriş Yap');
-      jwtService.deleteJwtInStorage();
-      router.navigate(['/login'])
-      return throwError(() => error);
-    }
-
     if (result) {
       toastrService.error(result.message, 'Hata');
     }
-
     return throwError(() => error);
   }));
 }
